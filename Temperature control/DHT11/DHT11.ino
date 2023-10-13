@@ -109,7 +109,7 @@ else
 
   previousError = error;
 
-  delay(2000);
+  delay(2000);//I delay my code because I use a DHT11 temperature sensor which it's doing better reading every 2 sec.
 
 }
 
