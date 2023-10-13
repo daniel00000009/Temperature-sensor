@@ -57,26 +57,27 @@ void loop() {
   buttonState3 = PINC & (1<<4); //DECREMENT -
 
 
-if(buttonState) 
+if(buttonState) //Place for the OK buttoon but the process works fine without it, if you want you can change your own. This way is more like an instant response of the system.
+  //You will have to keep somewhere the state of the button so once it was pressed it will remain like that (atleast the microcontroller thinks so).
 {
 
   
 }
 else
 {
-  if(buttonState1)
+  if(buttonState1)// CANCEL button
   {
-    temperaturaSetata=20;
+    temperaturaSetata=25;
     delay(1000);
   }
 
-  if(buttonState2)
+  if(buttonState2)//INCREMENT button
   {
     temperaturaSetata += 1;
     delay(1000);
   }
 
-  if(buttonState3)
+  if(buttonState3)//DECREMENT button
   {
     temperaturaSetata -=1;
     delay(1000);
@@ -93,9 +94,9 @@ else
   I = Ki * integral;
   D = Kd * (error - previousError);
 
-  output = P + I + D  ;
+  output = P + I + D  ;//the duty cycle for the PWM
 
-  if(output < 0)
+  if(output < 0)//this microcontroler is working with a 8 bit PWM so the value can go up to 255 which is a 100% duty cycle and 0 is 0%;
   {
     output = 0;
   }
