@@ -5,6 +5,7 @@ dht DHT;
 float temperaturaSetata = 25;
 
 int buttonState = LOW;
+int stareaButonului = LOW;
 int buttonState1 = LOW;
 int buttonState2 = LOW;
 int buttonState3 = LOW;
@@ -26,10 +27,14 @@ int integral = 0;
 void setup() {
   DDRC &= ~(1<<0);
   DDRC |= (1<<1) | (1<<2) | (1<<3) | (1<<4);
+  DDRB |= (1<<1);
+
+  TCCR1A = (1<<7) | (1<<1) | (1<<0);
+  TCCR1B = (1<<0) | (1<<3);
+  OCR1A = 0;
 
   Serial.begin(9600);
   delay(100);
-
 }
 
 void loop() {
@@ -56,28 +61,51 @@ void loop() {
   buttonState2 = PINC & (1<<3); //INCREMENT +
   buttonState3 = PINC & (1<<4); //DECREMENT -
 
+if(buttonState) //OK
+{
+  stareaButonului=HIGH;
+}
 
-if(buttonState) //Place for the OK buttoon but the process works fine without it, if you want you can change your own. This way is more like an instant response of the system.
-  //You will have to keep somewhere the state of the button so once it was pressed it will remain like that (atleast the microcontroller thinks so).
+if(buttonState1)//CANCEL
+{
+  stareaButonului = LOW;
+  temperaturaSetata=25;
+  delay(1000);
+}
+
+if(stareaButonului) 
 {
 
-  
+  error = temperaturaSetata - DHT.temperature;
+
+  P = Kp * error;
+  integral += error;
+  I = Ki * integral;
+  D = Kd * (error - previousError);
+
+  output = P + I + D  ;
+
+  if(output < 0)
+  {
+    output = 0;
+  }
+ else if(output > 255)
+  {
+    output = 255;
+  }
+   
+  OCR1A = output;
+  previousError = error;
 }
 else
 {
-  if(buttonState1)// CANCEL button
-  {
-    temperaturaSetata=25;
-    delay(1000);
-  }
-
-  if(buttonState2)//INCREMENT button
+  if(buttonState2)
   {
     temperaturaSetata += 1;
     delay(1000);
   }
 
-  if(buttonState3)//DECREMENT button
+  if(buttonState3)
   {
     temperaturaSetata -=1;
     delay(1000);
@@ -87,33 +115,7 @@ else
   Serial.print(temperaturaSetata);
   Serial.print("C \n");
 
-  error = temperaturaSetata - DHT.temperature;
-
-  P = Kp * error;
-  integral += error;
-  I = Ki * integral;
-  D = Kd * (error - previousError);
-
-  output = P + I + D  ;//the duty cycle for the PWM
-
-  if(output < 0)//this microcontroler is working with a 8 bit PWM so the value can go up to 255 which is a 100% duty cycle and 0 is 0%;
-  {
-    output = 0;
-  }
- else if(output > 255)
-  {
-    output = 255;
-  }
-   
-  analogWrite(9, output);
-
-  previousError = error;
-
-  delay(2000);//I delay my code because I use a DHT11 temperature sensor which it's doing better reading every 2 sec.
+  
+  delay(2000);
 
 }
-
-
-
-
-
