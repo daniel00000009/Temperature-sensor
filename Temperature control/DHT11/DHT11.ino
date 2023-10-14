@@ -17,6 +17,7 @@ const double Kp = 77.0474;//Acesta determină cât de repede controlul reacțion
 const double Ki = 1.0455;//Acesta este utilizat pentru a trata eroarea țintă pe o perioadă mai lungă de timp. 
 //Dacă doriți ca temperatura să rămână constantă și să compenseze variațiile de lungă durată, puteți seta un parametru I. 
 //Cu cât este mai mare, cu atât sistemul va reacționa mai eficient la erori pe termen lung.
+
 const double Kd = 73.3356;//Acesta reacționează la schimbările rapide ale temperaturii și ajută la prevenirea suprareglării. 
 //Dacă doriți ca temperatura să rămână constantă și să evitați fluctuațiile bruște, puteți seta un parametru D. 
 //Cu cât este mai mare, cu atât sistemul va reacționa mai rapid la schimbări.
