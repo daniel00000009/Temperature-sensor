@@ -80,7 +80,7 @@ if(stareaButonului)
   error = temperaturaSetata - DHT.temperature;
 
   P = Kp * error;
-  integral += error;
+  integral += error;//dt
   I = Ki * integral;
   D = Kd * (error - previousError);
 
