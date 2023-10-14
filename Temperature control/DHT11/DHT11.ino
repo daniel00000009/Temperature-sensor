@@ -98,24 +98,23 @@ if(stareaButonului)
   OCR1A = output;
   previousError = error;
 }
-else
-{
-  if(buttonState2)
-  {
-    temperaturaSetata += 1;
-    delay(1000);
-  }
 
-  if(buttonState3)
-  {
-    temperaturaSetata -=1;
-    delay(1000);
-  }
+
+if(buttonState2)
+{
+  temperaturaSetata += 1;
+  delay(1000);
 }
+
+if(buttonState3)
+{
+  temperaturaSetata -=1;
+  delay(1000);
+}
+
   Serial.print("TempSetata: ");
   Serial.print(temperaturaSetata);
   Serial.print("C \n");
-
   
   delay(2000);
 
