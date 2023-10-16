@@ -77,6 +77,8 @@ if(buttonState) //OK
 if(buttonState1)//CANCEL
 {
   stareaButonului = LOW;
+  PORTC &= ~(1<<0);
+  OCR1A = 0;
   temperaturaSetata=25;
   delay(1000);
 }
@@ -127,8 +129,3 @@ if(buttonState3)
 
   delay(2000);
 }
-
-
-
-
-
