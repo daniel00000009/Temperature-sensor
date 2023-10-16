@@ -4,7 +4,7 @@
 
 dht DHT;
 
-LiquidCrystal_I2C lcd(0x27, 16, 2); // Configurează pini LCD
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
 
 float temperaturaSetata = 25;
 
@@ -57,7 +57,6 @@ void loop() {
   int output;
 
   DHT.read11(dht_apin);
-
   
   lcd.setCursor(0,0);
   lcd.print("Temp:");
