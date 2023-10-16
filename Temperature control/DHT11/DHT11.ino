@@ -1,6 +1,10 @@
 #include<dht.h>
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
 
 dht DHT;
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Configurează pini LCD
 
 float temperaturaSetata = 25;
 
@@ -34,7 +38,9 @@ void setup() {
   TCCR1B = (1<<0) | (1<<3);
   OCR1A = 0;
 
-  Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  
   delay(100);
 }
 
@@ -52,15 +58,16 @@ void loop() {
 
   DHT.read11(dht_apin);
 
-  Serial.print("\n");
-  Serial.print("Temperature: ");
-  Serial.print(DHT.temperature);
-  Serial.print("C \n");
+  
+  lcd.setCursor(0,0);
+  lcd.print("Temp:");
+  lcd.print(DHT.temperature);
+  lcd.print("C ");
 
   buttonState = PINC & (1<<1);  //OK
   buttonState1 = PINC & (1<<2); //CANCEL
-  buttonState2 = PINC & (1<<3); //INCREMENT +
-  buttonState3 = PINC & (1<<4); //DECREMENT -
+  buttonState2 = PINB & (1<<2); //INCREMENT +
+  buttonState3 = PINB & (1<<3); //DECREMENT -
 
 if(buttonState) //OK
 {
@@ -112,10 +119,16 @@ if(buttonState3)
   delay(1000);
 }
 
-  Serial.print("TempSetata: ");
-  Serial.print(temperaturaSetata);
-  Serial.print("C \n");
-  
-  delay(2000);
+  lcd.setCursor(0,1);
+  lcd.print("TempSet: ");
+  lcd.print(temperaturaSetata);
+  lcd.print("C ");
 
+
+  delay(2000);
 }
+
+
+
+
+
