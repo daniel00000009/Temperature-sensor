@@ -30,8 +30,6 @@ int previousError = 0;
 int integral = 0;
 
 void setup() {
-  DDRC &= ~(1<<0);
-  DDRC |= (1<<1) | (1<<2) | (1<<3) | (1<<4);
   DDRB |= (1<<1);
 
   TCCR1A = (1<<7) | (1<<1) | (1<<0);
