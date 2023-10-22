@@ -32,9 +32,11 @@ int integral = 0;
 void setup() {
   DDRB |= (1<<1);
 
-  TCCR1A = (1<<7) | (1<<1) | (1<<0);
-  TCCR1B = (1<<0) | (1<<3);
-  OCR1A = 0;
+  TCCR1A = (1<<7) | (1<<1) | (1<<0); //WGM10 and WGM11 (bit 0 and 1) is actually a way to form a PWM signal where the period is the OCR1A value.
+
+  TCCR1B = (1<<0) | (1<<3);//CS10 (bit 0) is dividing the Base frequnecy by 8.
+
+  OCR1A = 0;//start with a value which is 0% duty cycle
 
   lcd.init();
   lcd.backlight();
